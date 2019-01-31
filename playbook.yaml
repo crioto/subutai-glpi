@@ -42,10 +42,38 @@
         src: /tmp/glpi.tgz
         dest: /var/www/{{ domainName }}
         remote_src: yes
+    - name: Set permission to files directory
+      file:
+        path: /var/www/{{ domainName }}/glpi/files
+        owner: www-data
+        group: www-data
+        mode: 0777
+    - name: Set permission to config directory
+      file:
+        path: /var/www/{{ domainName }}/glpi/config
+        owner: www-data
+        group: www-data
+        mode: 0777
+    - name: Create a new database
+      mysql_db:
+        name: {{ dbName }}
+        state: present
+    - name: Create new database user
+      mysql_user:
+        name: {{ dbUser }}
+        password: {{ dbPassword }}
+        priv: '*.*:ALL'
+        state: present
+    - name: Run installation script
+      shell: /usr/bin/php /var/www/{{ domainName }}/glpi/scripts/cliinstall.php --db {{ dbName }} --user {{ dbUser }} --pass {{ dbPass }}
+    - name: Destroy installation directory
+      file:
+        state: absent
+        path: "/var/www/{{ domainName }}/glpi/install/"
     - name: Copy configuration
       template:
         src: files/glpi-nginx.conf
-        dest: /etc/nginx/sites-available
+        dest: /etc/nginx/sites-enabled
     - name: Restart nginx
       systemd:
         name: nginx
