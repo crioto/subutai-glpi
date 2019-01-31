@@ -94,7 +94,7 @@
     "dbPassword": {
       "description": "Database Password",
       "type": "string",
-      "default": "glpi-db-password",
+      "default": "changeme!!!",
       "validation": "[a-zA-Z0-9]+"
     }
   }
