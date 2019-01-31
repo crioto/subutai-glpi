@@ -56,12 +56,12 @@
         mode: 0777
     - name: Create a new database
       mysql_db:
-        name: {{ dbName }}
+        name: "{{ dbName }}"
         state: present
     - name: Create new database user
       mysql_user:
-        name: {{ dbUser }}
-        password: {{ dbPassword }}
+        name: "{{ dbUser }}"
+        password: "{{ dbPassword }}"
         priv: '*.*:ALL'
         state: present
     - name: Run installation script

@@ -31,6 +31,18 @@
       {
         "key": "domainName",
         "value": "${domainName}"
+      },
+      {
+        "key": "dbName",
+        "value": "${dbName}"
+      },
+      {
+        "key": "dbUser",
+        "value": "${dbUser}"
+      },
+      {
+        "key": "dbPassword",
+        "value": "${dbPassword}"
       }
     ],
     "groups": [
