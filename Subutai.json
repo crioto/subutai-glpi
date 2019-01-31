@@ -83,19 +83,19 @@
       "description": "Database Name",
       "type": "string",
       "default": "glpi",
-      "validation": "[a-z0-9]"
+      "validation": "[a-zA-Z0-9]"
     },
     "dbUser": {
       "description": "Database User",
       "type": "string",
       "default": "glpi",
-      "validation": "[a-z0-9]"
+      "validation": "[a-zA-Z0-9]"
     },
     "dbPassword": {
       "description": "Database Password",
       "type": "string",
       "default": "glpi-db-password",
-      "validation": "[a-z0-9]"
+      "validation": "[a-zA-Z0-9]"
     }
   }
 }
