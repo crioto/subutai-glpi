@@ -1,0 +1,127 @@
+{
+  "name": "${environmentName}",
+  "description": "GLPI",
+  "version": "1.0.0",
+  "author": "https://github.com/crioto",
+  "containers": [
+      {
+          "hostname": "${webContainerName}",
+          "template": "debian-stretch",
+          "peer-criteria": "HTTP-GROUP",
+          "size": "${containerSize}",
+          "port-mapping": [
+              {
+                  "protocol": "http",
+                  "domain": "${domainName}",
+                  "internal-port": "80",
+                  "external-port": "80"
+              },
+          ]
+      }
+  ],
+  "peer-criteria": [
+      {
+          "name": "HTTP-GROUP"
+      }
+  ],
+  "ansible-configuration": {
+      "source-url": "https://github.com/crioto/subutai-glpi/archive/master.zip",
+      "ansible-playbook": "playbook.yaml",
+      "extra-vars": [
+          {
+              "key": "gameServerName",
+              "value": "${gameServerName}"
+          },
+          {
+              "key": "advertise",
+              "value": "${advertise}"
+          },
+          {
+              "key": "gameServerPassword",
+              "value": "${gameServerPassword}"
+          },
+          {
+              "key": "pauseOnJoin",
+              "value": "${pauseOnJoin}"
+          },
+          {
+              "key": "mapSizeX",
+              "value": "${mapSizeX}"
+          },
+          {
+              "key": "mapSizeY",
+              "value": "${mapSizeY}"
+          }
+      ],
+      "groups": [
+          {
+              "name": "glpi",
+              "hostnames": [
+                  "${webContainerName}"
+              ]
+          }
+      ]
+  },
+  "user-variables": {
+      "environmentName": {
+          "description": "Enter the environment name",
+          "type": "string",
+          "default": "openttd",
+          "validation": "[a-zA-Z0-9]+"
+      },
+      "domainName": {
+          "description": "Enter the application domain name",
+          "type": "domain",
+          "default": "change.the.domain",
+          "validation": "[a-zA-Z0-9]+"
+      },
+      "webContainerName": {
+          "description": "Enter the container's hostname",
+          "type": "string",
+          "default": "openttd",
+          "validation": "[a-zA-Z0-9]+"
+      },
+      "containerSize": {
+          "description": "Container Size",
+          "type": "enum",
+          "default": "TINY",
+          "validation": "TINY,SMALL,MEDIUM,LARGE,HUGE"
+      },
+      "gameServerName": {
+          "description": "Name of the game server",
+          "type": "string",
+          "default": "myserver",
+          "validation": "[a-zA-Z0-9]+"
+      },
+      "advertise": {
+          "description": "Advertise Game Server?",
+          "type": "enum",
+          "default": "false",
+          "validation": "true,false"
+      },
+      "gameServerPassword": {
+          "description": "Server password",
+          "type": "string",
+          "default": "myserver",
+          "validation": "[a-zA-Z0-9]*"
+      },
+      "pauseOnJoin": {
+          "description": "Pause game on player join?",
+          "type": "enum",
+          "default": "false",
+          "validation": "true,false"
+      },
+      "mapSizeX": {
+          "description": "Map Size X (2 ^ x = number of tiles)",
+          "type": "string",
+          "default": "10",
+          "validation": "[0-9]+"
+      },
+      "mapSizeY": {
+          "description": "Map Size Y (2 ^ y = number of tiles)",
+          "type": "string",
+          "default": "10",
+          "validation": "[0-9]+"
+      }
+  }
+}

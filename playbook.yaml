@@ -1,0 +1,53 @@
+---
+
+- hosts: glpi
+  remote_user: root
+  tasks:
+    - name: Upgrade OS
+      apt:
+        update_cache: true
+        upgrade: true
+    - name: Install dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - ca-certificates
+        - nginx
+        - mariadb-server
+        - php-fpm
+        - php-curl
+        - php-gd
+        - php-json
+        - php-mbstring
+        - php-mysqli
+        - php-simplexml
+        - php-xml
+        - php-cli
+        - php-imap
+        - php-ldap
+        - php-xmlrpc
+        - php-mysql
+    - name: Download GLPI package
+      get_url:
+        url: https://github.com/glpi-project/glpi/releases/download/9.3.3/glpi-9.3.3.tgz
+        dest: /tmp/glpi.tgz
+        mode: 0755
+    - name: Creates website directory
+      file:
+        path: /var/www/{{ domainName }}
+        state: directory
+    - name: Extract files
+      unarchive:
+        src: /tmp/glpi.tgz
+        dest: /var/www/{{ domainName }}
+        remote_src: yes
+    - name: Copy configuration
+      template:
+        src: files/glpi-nginx.conf
+        dest: /etc/nginx/sites-available
+    - name: Restart nginx
+      systemd:
+        name: openttd
+        state: restarted
+        daemon_reload: yes
