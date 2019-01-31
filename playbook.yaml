@@ -48,6 +48,6 @@
         dest: /etc/nginx/sites-available
     - name: Restart nginx
       systemd:
-        name: openttd
+        name: nginx
         state: restarted
         daemon_reload: yes
