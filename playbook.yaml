@@ -43,6 +43,12 @@
         src: /tmp/glpi.tgz
         dest: /var/www/{{ domainName }}
         remote_src: yes
+    - name: Change owner
+      file:
+        path: /var/www/{{ domainName }}/glpi
+        owner: www-data
+        group: www-data
+        recurse: yes
     - name: Set permission to files directory
       file:
         path: /var/www/{{ domainName }}/glpi/files
